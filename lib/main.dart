@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:multidevice/helpers/windows_sizes.dart';
+import 'package:multidevice/layout/layout_lg.dart';
+import 'package:multidevice/layout/layout_sm.dart';
+import 'package:multidevice/provider/layout_model.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-// void main() => runApp(
-//   ChangeNotifierProvider(
-//     create: (_) => new LayoutModel(),
-//     child: ChangeNotifierProvider(
-//       create: (_) => new ThemeChanger( 2 ),
-//       child: MyApp()
-//     ),
-//   )
-// );
+void main() => runApp(
+    ChangeNotifierProvider(create: (_) => LayoutModel(), child: MyApp()));
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Diseños App',
+      title: 'Devices App',
       home: OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
           // print('Orientation $orientation');
 
-          final screenSize = MediaQuery.of(context).size;
-
-          if (screenSize.width > 500) {
-            return LauncherTabletPage();
+          if (getBreakpoint(MediaQuery.of(context).size.width) ==
+              WindowsBreakpoint.sm) {
+            return LayoutSM();
           } else {
-            return LauncherPage();
+            return LayoutLG();
           }
         },
       ),

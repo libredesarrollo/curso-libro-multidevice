@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:multidevice/helpers/windows_sizes.dart';
 import 'package:multidevice/pages/page1.dart';
 import 'package:multidevice/pages/page2.dart';
 import 'package:multidevice/pages/page3.dart';
+import 'package:multidevice/provider/layout_model.dart';
+import 'package:provider/provider.dart';
 
-final _items = <Items>[
-  Items(Icons.onetwothree, 'One', const Page1()),
-  Items(Icons.onetwothree, 'Two', const Page2()),
-  Items(Icons.onetwothree, 'Three', const Page3()),
+final _items = <_Items>[
+  _Items(Icons.onetwothree, 'One', const Page1()),
+  _Items(Icons.onetwothree, 'Two', const Page2()),
+  _Items(Icons.onetwothree, 'Three', const Page3()),
 ];
 
-class Items {
+class _Items {
   final IconData icon;
   final String title;
   final Widget page;
 
-  Items(this.icon, this.title, this.page);
+  _Items(this.icon, this.title, this.page);
 }
 
-class _Items extends StatelessWidget {
+class Items extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -33,13 +36,15 @@ class _Items extends StatelessWidget {
           title: Text(_items[i].title),
           trailing: Icon(_items[i].icon, color: Colors.purple),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => _items[i].page));
-
-            /*
-                 final layoutModel = Provider.of<LayoutModel>(context, listen: false);
-                 layoutModel.currentPage = _items[i].page;
-                */
+            if (getBreakpoint(MediaQuery.of(context).size.width) ==
+                WindowsBreakpoint.sm) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => _items[i].page));
+            } else {
+              final layoutModel =
+                  Provider.of<LayoutModel>(context, listen: false);
+              layoutModel.currentPage = _items[i].page;
+            }
           },
         ),
       ),
@@ -67,7 +72,7 @@ class MyDrawer extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(child: _Items()),
+            Expanded(child: Items()),
           ],
         ),
       ),

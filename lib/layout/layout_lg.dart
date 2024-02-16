@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:multidevice/drawer/drawer.dart';
 import 'package:multidevice/provider/layout_model.dart';
 
 import 'package:provider/provider.dart';
 
-class LauncherTabletPage extends StatelessWidget {
+class LayoutLG extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final layoutModel = Provider.of<LayoutModel>(context);
@@ -18,7 +19,7 @@ class LauncherTabletPage extends StatelessWidget {
           Container(
             width: 300,
             height: double.infinity,
-            // // child: _ListaOpciones(),
+            child: Items(),
           ),
           Container(
             width: 1,
