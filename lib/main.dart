@@ -14,12 +14,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Devices App',
-      home: OrientationBuilder(
-        builder: (BuildContext context, Orientation orientation) {
-          // print('Orientation $orientation');
-
-          if (getBreakpoint(MediaQuery.of(context).size.width) ==
-              WindowsBreakpoint.sm) {
+      // LayoutBuilder reacciona al tamaño real disponible del widget,
+      // no a la orientación del dispositivo; esto lo hace más preciso que
+      // OrientationBuilder cuando la app corre en escritorio o web.
+      home: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (getBreakpoint(constraints.maxWidth) == WindowsBreakpoint.sm) {
             return LayoutSM();
           } else {
             return LayoutLG();

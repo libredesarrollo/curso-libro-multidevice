@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multidevice/drawer/drawer.dart';
 import 'package:multidevice/provider/layout_model.dart';
-
 import 'package:provider/provider.dart';
 
 class LayoutLG extends StatelessWidget {
@@ -11,22 +10,29 @@ class LayoutLG extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('App in LG Mode'),
+        title: const Text('App in LG Mode'),
+        // El botón de atrás solo se muestra si hay historial disponible.
+        // Esto simula el comportamiento de Navigator.pop() pero para el
+        // modo de dos columnas sin usar la pila de navegación de Flutter.
+        leading: layoutModel.canGoBack
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                tooltip: 'Volver',
+                onPressed: () => layoutModel.goBack(),
+              )
+            : null,
       ),
-      // drawer: _MenuPrincipal(),
       body: Row(
         children: <Widget>[
-          Container(
+          // Columna izquierda: menú de navegación con ancho fijo
+          SizedBox(
             width: 300,
-            height: double.infinity,
             child: Items(),
           ),
-          Container(
-            width: 1,
-            height: double.infinity,
-            color: Colors.grey,
-          ),
-          Expanded(child: layoutModel.currentPage)
+          // Separador vertical
+          const VerticalDivider(width: 1, thickness: 1, color: Colors.grey),
+          // Columna derecha: página actualmente seleccionada
+          Expanded(child: layoutModel.currentPage),
         ],
       ),
     );
